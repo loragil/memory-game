@@ -2,7 +2,7 @@ html,
 body,
 .game {
     height: 100%;
-    font-family: 'Khand', sans-serif;
+    font-family: 'Khand', sans-serif, Arial;
 }
 .game {
     position: relative;
