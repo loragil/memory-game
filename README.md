@@ -24,6 +24,7 @@
  * add game options screen (difficulty level/deck pattern/enable sound)
  * add languages dictionary
  * add keyboard shortcuts
+ * add ARIA support [https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA]
  
  Online features - 
  * add login/users mechanism
