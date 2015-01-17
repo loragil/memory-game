@@ -1,0 +1,60 @@
+html,
+body,
+.game {
+    height: 100%;
+    font-family: 'Khand', sans-serif;
+}
+.game {
+    position: relative;
+    font-size: 26px;
+    overflow: hidden;
+}
+.details {
+    padding: 10px;
+    text-align: center;
+}
+#playerA,
+#playerB {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10%;
+    text-align: center;
+}
+#playerA img,
+#playerB img {
+    width: 80px;
+    position: absolute;
+}
+#playerA img:first-child,
+#playerB img:first-child {
+    transform: translateX(20px);
+}
+#playerB img:first-child {
+    z-index: 1;
+}
+#playerA {
+    left: 0;
+}
+#playerB {
+    right: 0;
+}
+li {
+    position: relative;
+    height: 100px;
+}
+.board {
+    width: 660px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+game-card {
+    flex: 0 0 auto;
+    transition: opacity .3s ease-out;
+}

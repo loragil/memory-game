@@ -1,0 +1,103 @@
+<template name="card">
+    <style>
+       /* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	.flip-container.show .flipper {
+		transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 165px;
+	height: 200px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(180deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(0deg);
+}
+        
+        
+    </style>
+    
+    <div class="flip-container">
+        <div class="flipper">
+            <div class="front">
+                <img src=""></img>
+            </div>
+            <div class="back">
+                <img src="http://igorminar.github.io/Memory-Game/app/img/back.png"></img>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    (function (){
+        var Card = Object.create(HTMLElement.prototype);
+        Card.isFace = false;
+
+        var cardElement;
+
+        var template = document.currentScript.ownerDocument.querySelector('template[name="card"]').content;
+
+        var flip_card = function (cardElement, val) {
+            cardElement.isFace = val !== undefined ? val : !cardElement.isFace;
+            cardElement.classList.toggle('show', cardElement.isFace);
+        };
+
+        Card.createdCallback = function () {
+            var clone = template.cloneNode(true);
+            
+            cardElement = clone.querySelector('.flip-container');
+                
+            cardElement.querySelector('.front img').src = this.getAttribute('card_source');
+                var that = this;
+                
+             cardElement.addEventListener('click', function() {
+                 if (!that.hasAttribute('block')) {
+                     flip_card(this, true);
+                 }
+             });
+            
+            this.cardElement = cardElement;
+            
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        };
+
+        Card.attributeChangedCallback = function (attr, old_val, new_val) {
+            if(attr === 'hide') {
+                flip_card(this.cardElement, false);
+            }
+        };
+
+        document.registerElement('game-card', { prototype: Card });
+    })();
+</script>
