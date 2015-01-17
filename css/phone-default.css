@@ -1,0 +1,12 @@
+@media only screen and (max-width: 640px) {
+
+    body:after {
+        content: 'tablet';
+        display: none;
+    }
+
+    .details {
+        background-color: green;
+    }
+
+} /*end of the media query*/

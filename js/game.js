@@ -55,28 +55,39 @@
     var deck = createCards(cardTypes);
     createBoard(deck);
 
-
-
-    ///
     function isGameRunning() {
         return deck.length > 0;
     }
 
-    var players = ['playerA', 'playerB'];
-    var playersNames = ['A san', 'B san'];
-    document.querySelector('#playerA h3').innerHTML = playersNames[0];
-    document.querySelector('#playerB h3').innerHTML = playersNames[1];
+    function setPlayersNames(playerA, playerB) {
+        document.querySelector('#playerA h3').innerHTML = playerA;
+        document.querySelector('#playerB h3').innerHTML = playerB;
+        
+        currentPlayerPlaceHolder.innerHTML = playerA;
+    }
+    
+    var players = [{
+        id: 'playerA',
+        name: '',
+        score: 0
+    }, {
+        id: 'playerB',
+        name: '',
+        score: 0
+    }];
 
-    var currentPlayer = players[0];
-    document.getElementById('currentPlayer').innerHTML = currentPlayer;
+    var currentPlayerPlaceHolder = document.querySelector('.currentPlayer');
+
+    var currentPlayer = 0;
+    
 
     var visibleCards = [];
     var pairsCount = cardTypes.length;
     document.getElementById('pairsLeft').innerHTML = pairsCount;
 
     function switchPlayer() {
-        currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
-        document.getElementById('currentPlayer').innerHTML = currentPlayer;
+        currentPlayer = currentPlayer === 0 ? 1 : 0;
+        currentPlayerPlaceHolder.innerHTML = players[currentPlayer].name;
     }
 
     function isMatch(cards) {
@@ -108,7 +119,7 @@
         img.src = visibleCards[0].getAttribute('card_source');
         li.appendChild(img.cloneNode(true));
         li.appendChild(img);
-        document.querySelector('#' + currentPlayer + ' ul').appendChild(li);
+        document.querySelector('#' + players[currentPlayer].id + ' ul').appendChild(li);
     };
 
     var gameCards = document.querySelectorAll('game-card');
@@ -159,4 +170,26 @@
     });
 
 
+    /************************** game UI logic ********************************/
+    document.getElementById('startNew').addEventListener('click', function() {
+        start();
+    });
+
+    function start() {
+        var container = document.getElementById('container'),
+            nameA = document.querySelector('[name=playerAName]'),
+            nameB = document.querySelector('[name=playerBName]');
+        players[0].name = nameA.value;
+        players[1].name = nameB.value;
+        
+        setPlayersNames(players[0].name, players[1].name)
+        container.classList.add('inGame');
+        
+        var gameCards = document.querySelectorAll('game-card');
+        var backImage = document.getElementById('selectDeck').value;
+        for (var i = 0; i < gameCards.length; i++) {
+            var back = gameCards[i].shadowRoot.querySelector('.back');
+            back.classList.add(backImage);
+        }
+    }
 }());

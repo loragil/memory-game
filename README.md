@@ -1,8 +1,6 @@
  TO DO:
 ============= 
  * add & disply points to players
- * add shuffle deck
- * add players name input
  * add pairs animations
  * add user messages for each attempt ('well done!' etc.)
  * refactor 'game over' state
@@ -16,7 +14,6 @@
 
  Nice to have:
 =============
- * add ability to choose deck patttern
  * add ability to choose avatar
  * add option to load images from url/local folder
  * add sound FX
@@ -24,7 +21,7 @@
  * add game options screen (difficulty level/deck pattern/enable sound)
  * add languages dictionary
  * add keyboard shortcuts
- * add ARIA support [https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA]///
+ * add ARIA support [https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA]
  
  Online features - 
  * add login/users mechanism

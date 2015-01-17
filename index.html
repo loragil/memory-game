@@ -6,33 +6,71 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Khand">
     <link rel="stylesheet" href="css/reset.css" type="text/css" />
     <link rel="stylesheet" href="css/game.css" type="text/css" />
+    <link rel="stylesheet" href="css/phone-default.css" type="text/css" />
+    <link rel="stylesheet" href="css/tablet.css" type="text/css" />
+    <link rel="stylesheet" href="css/desktop.css" type="text/css" />
     <link rel="import" href="components/game-card.html">
     <title>Memory Game</title>
 
 </head>
 
 <body>
-    <div class="game">
-        <div class="details">
+    <div id="container">
+        <div id="startScreen">
             <div>
-                <span>Pairs left to match: </span>
-                <span id="pairsLeft"></span>
+                <label for="playerAName">
+                    <input type="text" name="playerAName" placeholder="Enter 1st player's name here" />
+                </label>
             </div>
+
             <div>
-                <span>It's <em id="currentPlayer"></em>'s turn</span>
+                <label for="playerBName">
+                    <input type="text" name="playerBName" placeholder="Enter 2nd player's name here" />
+                </label>
+            </div>
+            
+             <div>
+                <label for="selectDeck">
+                    Select your deck:
+                    <select name="selectDeck" id="selectDeck">
+                        <option value="arrows">Arrows</option>
+                        <option value="zigzag">Zig Zag</option>
+                        <option value="mat">Mat</option>
+                        <option value="hearts">Hearts</option>
+                        <option value="stars">Stars</option>
+                    </select>
+                </label>
+            </div>
+
+            <div>
+                <input id="startNew" type="button" value="Start a new game" />
             </div>
         </div>
 
-        <div id="playerA">
-            <h3></h3>
-            <ul></ul>
-        </div>
-        
-        <div class="board"></div>
-        
-        <div id="playerB">
-            <h3></h3>
-            <ul></ul>
+        <div class="game">
+
+            <div class="details">
+                <div>
+                    <span>Pairs left to match: </span>
+                    <span id="pairsLeft"></span>
+                </div>
+                <div>
+                    <span>It's <em class="currentPlayer"></em>'s turn</span>
+                </div>
+            </div>
+
+            <div id="playerA">
+                <h3></h3>
+                <ul></ul>
+            </div>
+
+            <div class="board"></div>
+
+            <div id="playerB">
+                <h3></h3>
+                <ul></ul>
+            </div>
+
         </div>
     </div>
     <script type="text/javascript" src="js/game.js"></script>
