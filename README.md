@@ -1,10 +1,11 @@
  TO DO:
 ============= 
+ * utilize session + preserve game state on refresh
+ * add single player mode + timer (duration) / timed game (countdown)
  * add & disply points to players
- * add pairs animations
  * add user messages for each attempt ('well done!' etc.)
  * refactor 'game over' state
- * add 'start new game' button
+ * add 'start new game' button to game screen
  * add difficulty presets (board size)
  
  * code refactoring
@@ -21,6 +22,7 @@
  * add game options screen (difficulty level/deck pattern/enable sound)
  * add languages dictionary
  * add keyboard shortcuts
+ * add pairs animations
  * add ARIA support [https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA]
  
  Online features - 
@@ -38,3 +40,14 @@
 * https://github.com/PolymerLabs/memory-game
 * http://daniel-lundin.github.io/snabbt.js/cards.html
 * http://lea.verou.me/css3patterns/
+* http://martinivanov.net/2014/10/18/x-deck-playing-cards-html5-web-component/
+* http://experiments.wemakesites.net/html5-web-components.html
+
+
+
+CREDITS:
+===========
+
+* CSS3 Patterns Gallery - Lea Verou [http://lea.verou.me/css3patterns/]
+* Swirl - by Uday [http://subtlepatterns.com/swirl-2/]
+* css eye - [http://codepen.io/sooba/pen/DGmba]

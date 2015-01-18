@@ -1,62 +1,128 @@
+html {
+    font-size: 10px;
+}
+body {
+    font-size: 62.5%;
+}
 html,
-body,
-.game {
+body {
     height: 100%;
-    /*sdssdsdsdd*/
-    
     font-family: 'Khand', sans-serif, Arial;
 }
-
-input {
-    font-size:40px;
-    margin:10px;
-    border-radius:10px;
+input,
+select,
+label {
+    font-size: 3rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    padding: 0 1.5rem;
+    font-family: khand;
 }
+.preview {
+    display: inline-block;
+    width: 15rem;
+    height: 5rem;
+    transform: translateY(1.5rem);
+    border-radius: 5rem;
+}
+/* deck patterns: */
 
+.preview.arrows {
+    background: linear-gradient(45deg, #92baac 45px, transparent 45px)64px 64px, linear-gradient(45deg, #92baac 45px, transparent 45px, transparent 91px, #e1ebbd 91px, #e1ebbd 135px, transparent 135px), linear-gradient(-45deg, #92baac 23px, transparent 23px, transparent 68px, #92baac 68px, #92baac 113px, transparent 113px, transparent 158px, #92baac 158px);
+    background-color: #e1ebbd;
+    background-size: 128px 128px;
+}
+.preview.zigzag {
+    background: linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(315deg, #ECEDDC 25%, transparent 25%), linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
+    background-size: 100px 100px;
+    background-color: #EC173A;
+}
+.preview.mat {
+    background: radial-gradient(circle at 0% 50%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px) 0px 10px, radial-gradient(at 100% 100%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px), #8a3;
+    background-size: 20px 20px;
+}
+.preview.hearts {
+    background: radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%), radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%) 50px 50px;
+    background-color: #b03;
+    background-size: 100px 100px;
+}
+.preview.stars {
+    background: linear-gradient(324deg, #232927 4%, transparent 4%) -70px 43px, linear-gradient( 36deg, #232927 4%, transparent 4%) 30px 43px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 30px 43px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -70px 43px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -70px 23px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 30px 23px, linear-gradient(324deg, #232927 4%, transparent 4%) -20px 93px, linear-gradient( 36deg, #232927 4%, transparent 4%) 80px 93px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 80px 93px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -20px 93px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -20px 73px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 80px 73px;
+    background-color: #232927;
+    background-size: 100px 100px;
+}
 #container {
     position: relative;
-    background-image: url('../assets/images/swirl_pattern.png');
-}
-#container > div {
-    transition: all 0.3s;
-    overflow: hidden;
-    /*position:absolute;*/
-    
     height: 100%;
+    background-image: url('../assets/images/swirl_pattern.png');
+    overflow: hidden;
 }
-#container #startScreen {
+#startScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.6s;
+    overflow: hidden;
+}
+#startScreen .wrapper {
     width: 80%;
     margin: 0px auto;
     text-align: center;
-    transform: translateX(0%);
-    /*left:0;*/
-    /*z-index:5;*/
+    top: 0rem;
+    left: 50%;
+    height: 90%;
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 5;
+    background: fuchsia;
+    /*border-radius: 0 0 65% 65%;*/
+    /*border-radius: 50% 0% 115% 10%;*/
+    
+    border-radius: 0% 0% 20% 20%;
+    box-shadow: 0px 0.2rem 3rem 0.7rem rgba(0, 0, 0, 0.5);
 }
-#container .game {
-    transform: translateX(-100%);
-    /*left:-100%;*/
-    /*z-index:0;*/
+#startScreen .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 #container.inGame #startScreen {
-    transform: translateX(-100%);
-    height: 0;
-    /*left:-100%;*/
-    /*z-index:0;*/
-}
-#container.inGame .game {
-    transform: translateX(0%);
-    /*left:0;*/
-    /*z-index:5;*/
+    top: -100%;
 }
 .game {
     position: relative;
-    font-size: 26px;
+    font-size: 2.6rem;
     overflow: hidden;
     width: 100%;
+    height: 100%;
 }
 .details {
-    padding: 10px;
+    padding: 0 1rem;
     text-align: center;
+    position: fixed;
+    padding: 0.5rem;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0.2rem 2.5rem 0.5rem rgba(0, 0, 0, 0.5);
+}
+.details >div {
+    display: inline-block;
+    margin: 0 1rem;
+}
+.details .currentPlayer {
+    position: absolute;
+    left: -1rem;
+    top: 7rem;
+    height: 6rem;
+    background-color: cornflowerblue;
+    border-radius: 0 1rem 1rem 0;
+    text-align: center;
+    padding: 0 1rem;
+    line-height: 6.5rem;
+    font-size: 4.5rem;
 }
 #playerA,
 #playerB {
@@ -68,7 +134,7 @@ input {
 }
 #playerA img,
 #playerB img {
-    width: 80px;
+    width: 8rem;
     position: absolute;
 }
 #playerA img:first-child,
@@ -86,12 +152,12 @@ input {
 }
 li {
     position: relative;
-    height: 100px;
+    height: 10rem;
 }
 .board {
-    width: 740px;
+    width: 74rem;
     height: 100%;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -101,6 +167,6 @@ li {
 }
 game-card {
     flex: 0 0 auto;
-    margin: 10px;
+    margin: 1rem;
     transition: opacity .3s ease-out;
 }

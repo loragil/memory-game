@@ -1,0 +1,155 @@
+<template name="eye">
+    <style>
+        .eye {
+            transform: scale(0.7);
+            background: #e0e0d1;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: inline-block;
+        }
+        .eye i {
+            background: #4f5d73;
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 19px;
+            box-shadow: inset 0 4px 0 rgba(0, 0, 0, .18), inset 0 -2px 0 rgba(0, 0, 0, .18), 0 4px 0 rgba(0, 0, 0, .18);
+            -webkit-transition: all .43s cubic-bezier(.73, .19, .21, 1.7)
+        }
+        .eye i i {
+            background: rgba(0, 0, 0, .07);
+            width: 86%;
+            height: 86%;
+            margin: 7%;
+            box-shadow: inset 0 3px 0 rgba(0, 0, 0, .18), inset 0 -2px 0 rgba(0, 0, 0, .18)
+        }
+        .eye i i i i {
+            background: #65a192;
+            width: 80%;
+            height: 80%;
+            margin: 10%;
+            overflow: hidden;
+            position: relative
+        }
+        .eye u {
+            background: #3f4755;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            position: absolute;
+            transition: all .3s;
+        }
+        .eye i i i i:before,
+        .eye u:after {
+            content: '';
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            background: rgba(255, 255, 255, .12);
+            border-radius: 100%;
+            top: -70%;
+            z-index: 2
+        }
+        .eye u:after {
+            width: 25%;
+            height: 25%;
+            background: #d3d2d2;
+            top: 0;
+            left: 60%
+        }
+        .eye s {
+            position: absolute;
+            width: 200%;
+            height: 10%;
+            z-index: 3;
+            background: #3f4755;
+            border-radius: 0 0 100% 100%;
+            left: -50%;
+            top: -10%;
+            box-shadow: inset 0 -7px 7px rgba(0, 0, 0, .18);
+            -webkit-animation: blink 10s infinite
+        }
+        @-webkit-keyframes blink {
+            20%, 70%, 74% {
+                height: 120%
+            }
+            18%,
+            22%,
+            68%,
+            72%,
+            76% {
+                height: 10%
+            }
+        }
+        .eye:hover i i {
+            width: 90%;
+            height: 90%;
+            margin: 5%
+        }
+    </style>
+
+    <div class="eye right"><i><i><i><i><s></s><u></u></i></i>
+        </i>
+        </i>
+    </div>
+</template>
+
+<script>
+    (function() {
+        var EyeProto = Object.create(HTMLElement.prototype);
+        var ownerDocument = document.currentScript.ownerDocument;
+        var template = ownerDocument.querySelector('template[name="eye"]').content;
+        var clone;
+
+        function eyeTracking(offset, follower) {
+            var mouseX = 0,
+                mouseY = 0,
+                limitX = 20,
+                limitY = 20;
+
+            window.addEventListener('mousemove', function(e) {
+                mouseX = Math.min(e.pageX - offset.offsetLeft, limitX);
+                mouseY = Math.min(e.pageY - offset.offsetTop, limitY);
+                if (mouseX < 0) mouseX = 0;
+                if (mouseY < 0) mouseY = 0;
+            });
+
+            var xp = 0,
+                yp = 0,
+                loop = setInterval(function() {
+                    xp += (mouseX - xp) / 1;
+                    yp += (mouseY - yp) / 1;
+
+                    follower.style.left = xp + 'px';
+                    follower.style.top = yp + 'px';
+
+                }, 30);
+        }
+
+        EyeProto.createdCallback = function() {
+            clone = template.cloneNode(true);
+            var offset = clone.querySelector('.eye i i i i');
+            var follower = clone.querySelector('.eye u');
+
+            eyeTracking(offset, follower);
+
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        };
+
+        EyeProto.attachedCallback = function() {
+
+        };
+
+        EyeProto.attributeChangedCallback = function(attr, old_val, new_val) {
+
+        };
+
+        document.registerElement('eye-thing', {
+            prototype: EyeProto
+        });
+    })();
+</script>

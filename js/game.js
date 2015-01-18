@@ -62,10 +62,10 @@
     function setPlayersNames(playerA, playerB) {
         document.querySelector('#playerA h3').innerHTML = playerA;
         document.querySelector('#playerB h3').innerHTML = playerB;
-        
+
         currentPlayerPlaceHolder.innerHTML = playerA;
     }
-    
+
     var players = [{
         id: 'playerA',
         name: '',
@@ -79,7 +79,7 @@
     var currentPlayerPlaceHolder = document.querySelector('.currentPlayer');
 
     var currentPlayer = 0;
-    
+
 
     var visibleCards = [];
     var pairsCount = cardTypes.length;
@@ -143,8 +143,11 @@
                     if (isMatch(visibleCards)) {
                         assignToPlayer();
                         removePair();
+                        players[currentPlayer].score += 1;
                         if (pairsCount === 0) {
-                            alert('game over, ' + currentPlayer + ' wins!');
+                            var winnerId = players[0].score === players[1].score ? "draw" : players[0].score > players[1].score ? 0 : 1;
+
+                            alert('game over, ' + players[winnerId].name + ' wins!');
                         }
                     }
                     else {
@@ -181,15 +184,38 @@
             nameB = document.querySelector('[name=playerBName]');
         players[0].name = nameA.value;
         players[1].name = nameB.value;
-        
+
         setPlayersNames(players[0].name, players[1].name)
         container.classList.add('inGame');
-        
-        var gameCards = document.querySelectorAll('game-card');
+
+
+        /*var gameCards = document.querySelectorAll('game-card');
         var backImage = document.getElementById('selectDeck').value;
+        document.getElementByClassName('preview').classList.add(backImage);
         for (var i = 0; i < gameCards.length; i++) {
             var back = gameCards[i].shadowRoot.querySelector('.back');
             back.classList.add(backImage);
+        }*/
+    }
+
+
+    var deckSelect = document.getElementById('selectDeck');
+    deckSelect.addEventListener('change', function() {
+        updateSelectedDeck();
+    });
+
+    function updateSelectedDeck() {
+        var gameCards = document.querySelectorAll('game-card');
+        var backImage = deckSelect.value;
+        document.querySelector('.preview').className = 'preview';
+        document.querySelector('.preview').classList.add(backImage);
+        for (var i = 0; i < gameCards.length; i++) {
+            var back = gameCards[i].shadowRoot.querySelector('.back');
+            back.className = 'back';
+            back.classList.add(backImage);
         }
     }
+    //set initial selection
+    updateSelectedDeck();
+
 }());

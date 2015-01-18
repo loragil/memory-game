@@ -3,13 +3,14 @@
 
 <head>
 
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Khand">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khand">
     <link rel="stylesheet" href="css/reset.css" type="text/css" />
     <link rel="stylesheet" href="css/game.css" type="text/css" />
     <link rel="stylesheet" href="css/phone-default.css" type="text/css" />
     <link rel="stylesheet" href="css/tablet.css" type="text/css" />
     <link rel="stylesheet" href="css/desktop.css" type="text/css" />
     <link rel="import" href="components/game-card.html">
+    <link rel="import" href="components/eye-thing.html">
     <title>Memory Game</title>
 
 </head>
@@ -17,33 +18,41 @@
 <body>
     <div id="container">
         <div id="startScreen">
-            <div>
-                <label for="playerAName">
-                    <input type="text" name="playerAName" placeholder="Enter 1st player's name here" />
-                </label>
-            </div>
+            <div class="wrapper">
+                <div class="content">
+                    <div>
+                        <label for="playerAName">
+                            <input type="text" name="playerAName" placeholder="1st player's name" />
+                        </label>
+                    </div>
 
-            <div>
-                <label for="playerBName">
-                    <input type="text" name="playerBName" placeholder="Enter 2nd player's name here" />
-                </label>
-            </div>
-            
-             <div>
-                <label for="selectDeck">
-                    Select your deck:
-                    <select name="selectDeck" id="selectDeck">
-                        <option value="arrows">Arrows</option>
-                        <option value="zigzag">Zig Zag</option>
-                        <option value="mat">Mat</option>
-                        <option value="hearts">Hearts</option>
-                        <option value="stars">Stars</option>
-                    </select>
-                </label>
-            </div>
+                    <div>
+                        <label for="playerBName">
+                            <input type="text" name="playerBName" placeholder="2nd player's name" />
+                        </label>
+                    </div>
 
-            <div>
-                <input id="startNew" type="button" value="Start a new game" />
+                    <div>
+                        <label for="selectDeck">
+                            Select your deck:
+                            <select name="selectDeck" id="selectDeck">
+                                <option value="hearts">Hearts</option>
+                                <option value="stars">Stars</option>
+                                <option value="mat">Mat</option>
+                                <option value="arrows">Arrows</option>
+                                <option value="zigzag">Zig Zag</option>
+                            </select>
+                        </label>
+
+                        <div class="preview"></div>
+                    </div>
+
+                    <div>
+                        <input id="startNew" type="button" value="Start a new game" />
+                    </div>
+                </div>
+
+                <eye-thing></eye-thing>
             </div>
         </div>
 
@@ -51,11 +60,10 @@
 
             <div class="details">
                 <div>
-                    <span>Pairs left to match: </span>
+                    <span>Pairs left: </span>
                     <span id="pairsLeft"></span>
                 </div>
-                <div>
-                    <span>It's <em class="currentPlayer"></em>'s turn</span>
+                <div class="currentPlayer">
                 </div>
             </div>
 
