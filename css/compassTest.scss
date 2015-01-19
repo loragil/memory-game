@@ -1,0 +1,12 @@
+@import "compass/reset";
+@import "importTest";
+
+$background-color:gray;
+
+html{
+    body{
+        #container{
+            background: $background-color;
+        }
+    }    
+}

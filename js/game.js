@@ -95,10 +95,6 @@
     }
 
     function removePair() {
-        /*visibleCards[0].remove();
-                    visibleCards[1].remove();*/
-
-
         visibleCards[0].style.opacity = 0;
         visibleCards[0].style.pointerEvents = 'none';
         visibleCards[1].style.opacity = 0;
@@ -182,20 +178,11 @@
         var container = document.getElementById('container'),
             nameA = document.querySelector('[name=playerAName]'),
             nameB = document.querySelector('[name=playerBName]');
-        players[0].name = nameA.value;
-        players[1].name = nameB.value;
+        players[0].name = nameA.value || players[0].id;
+        players[1].name = nameB.value || players[1].id;
 
         setPlayersNames(players[0].name, players[1].name)
         container.classList.add('inGame');
-
-
-        /*var gameCards = document.querySelectorAll('game-card');
-        var backImage = document.getElementById('selectDeck').value;
-        document.getElementByClassName('preview').classList.add(backImage);
-        for (var i = 0; i < gameCards.length; i++) {
-            var back = gameCards[i].shadowRoot.querySelector('.back');
-            back.classList.add(backImage);
-        }*/
     }
 
 
@@ -205,17 +192,24 @@
     });
 
     function updateSelectedDeck() {
-        var gameCards = document.querySelectorAll('game-card');
-        var backImage = deckSelect.value;
-        document.querySelector('.preview').className = 'preview';
-        document.querySelector('.preview').classList.add(backImage);
-        for (var i = 0; i < gameCards.length; i++) {
-            var back = gameCards[i].shadowRoot.querySelector('.back');
-            back.className = 'back';
-            back.classList.add(backImage);
+            var gameCards = document.querySelectorAll('game-card');
+            var backImage = deckSelect.value;
+            document.querySelector('.preview').className = 'preview';
+            document.querySelector('.preview').classList.add(backImage);
+            for (var i = 0; i < gameCards.length; i++) {
+                var back = gameCards[i].shadowRoot.querySelector('.back');
+                back.className = 'back';
+                back.classList.add(backImage);
+            }
         }
-    }
-    //set initial selection
+        //set initial selection
     updateSelectedDeck();
+
+    /*document.getElementById('container').addEventListener('mousemove', function(e) {
+        var amountMovedX = (e.pageX * -1 / 6);
+        var amountMovedY = (e.pageY * -1 / 6);
+        
+        e.currentTarget.style.backgroundPosition = amountMovedX + 'px ' + amountMovedY + 'px';
+    });*/
 
 }());
