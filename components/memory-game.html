@@ -1,0 +1,470 @@
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khand">
+<link rel="import" href="game-card.html">
+
+<template name="game">
+    <style>
+        input,
+        select,
+        label {
+            font-size: 3rem;
+            margin: 1rem;
+            border-radius: 0.5rem;
+            padding: 0 1.5rem;
+            font-family: khand;
+        }
+        .preview {
+            display: inline-block;
+            width: 15rem;
+            height: 5rem;
+            transform: translateY(1.5rem);
+            border-radius: 5rem;
+        }
+        /* deck patterns: */
+        
+        .preview.arrows {
+            background: linear-gradient(45deg, #92baac 45px, transparent 45px)64px 64px, linear-gradient(45deg, #92baac 45px, transparent 45px, transparent 91px, #e1ebbd 91px, #e1ebbd 135px, transparent 135px), linear-gradient(-45deg, #92baac 23px, transparent 23px, transparent 68px, #92baac 68px, #92baac 113px, transparent 113px, transparent 158px, #92baac 158px);
+            background-color: #e1ebbd;
+            background-size: 128px 128px;
+        }
+        .preview.zigzag {
+            background: linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(315deg, #ECEDDC 25%, transparent 25%), linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
+            background-size: 100px 100px;
+            background-color: #EC173A;
+        }
+        .preview.mat {
+            background: radial-gradient(circle at 0% 50%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px) 0px 10px, radial-gradient(at 100% 100%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px), #8a3;
+            background-size: 20px 20px;
+        }
+        .preview.hearts {
+            background: radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%), radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%) 50px 50px;
+            background-color: #b03;
+            background-size: 100px 100px;
+        }
+        .preview.stars {
+            background: linear-gradient(324deg, #232927 4%, transparent 4%) -70px 43px, linear-gradient( 36deg, #232927 4%, transparent 4%) 30px 43px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 30px 43px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -70px 43px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -70px 23px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 30px 23px, linear-gradient(324deg, #232927 4%, transparent 4%) -20px 93px, linear-gradient( 36deg, #232927 4%, transparent 4%) 80px 93px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 80px 93px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -20px 93px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -20px 73px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 80px 73px;
+            background-color: #232927;
+            background-size: 100px 100px;
+        }
+        #container {
+            position: relative;
+            height: 100%;
+            background-image: url('../assets/images/swirl_pattern.png');
+            overflow: hidden;
+            font-family: 'Khand', Arial, sans-serif;
+        }
+        #startScreen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: all 0.6s;
+            overflow: hidden;
+        }
+        #startScreen .wrapper {
+            width: 80%;
+            margin: 0px auto;
+            text-align: center;
+            top: 0rem;
+            left: 50%;
+            height: 90%;
+            position: absolute;
+            transform: translateX(-50%);
+            z-index: 5;
+            background: fuchsia;
+            /*border-radius: 0 0 65% 65%;*/
+            /*border-radius: 50% 0% 115% 10%;*/
+            
+            border-radius: 0% 0% 20% 20%;
+            box-shadow: 0px 0.2rem 3rem 0.7rem rgba(0, 0, 0, 0.5);
+        }
+        #startScreen .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #container.inGame #startScreen {
+            top: -100%;
+        }
+        .game {
+            position: relative;
+            font-size: 2.6rem;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        .details {
+            padding: 0 1rem;
+            text-align: center;
+            position: fixed;
+            padding: 0.5rem;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0.2rem 2.5rem 0.5rem rgba(0, 0, 0, 0.5);
+        }
+        .details >div {
+            display: inline-block;
+            margin: 0 1rem;
+        }
+        .details .currentPlayer {
+            position: absolute;
+            left: -1rem;
+            top: 7rem;
+            height: 6rem;
+            background-color: cornflowerblue;
+            border-radius: 0 1rem 1rem 0;
+            text-align: center;
+            padding: 0 1rem;
+            line-height: 6.5rem;
+            font-size: 4.5rem;
+        }
+        #playerA,
+        #playerB {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10%;
+            text-align: center;
+        }
+        #playerA img,
+        #playerB img {
+            width: 8rem;
+            position: absolute;
+        }
+        #playerA img:first-child,
+        #playerB img:first-child {
+            transform: translateX(20px);
+        }
+        #playerB img:first-child {
+            z-index: 1;
+        }
+        #playerA {
+            left: 0;
+        }
+        #playerB {
+            right: 0;
+        }
+        li {
+            position: relative;
+            height: 10rem;
+        }
+        .board {
+            width: 74rem;
+            height: 100%;
+            margin: 2rem auto 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+        }
+        game-card {
+            flex: 0 0 auto;
+            margin: 1rem;
+            transition: opacity .3s ease-out;
+        }
+    </style>
+
+    <div id="container">
+        <div id="startScreen">
+            <div class="wrapper">
+                <div class="content">
+                    <div>
+                        <label for="playerAName">
+                            <input type="text" name="playerAName" placeholder="1st player's name" />
+                        </label>
+                    </div>
+
+                    <div>
+                        <label for="playerBName">
+                            <input type="text" name="playerBName" placeholder="2nd player's name" />
+                        </label>
+                    </div>
+
+                    <div>
+                        <label for="selectDeck">
+                            Select your deck:
+                            <select name="selectDeck" id="selectDeck">
+                                <option value="hearts">Hearts</option>
+                                <option value="stars">Stars</option>
+                                <option value="mat">Mat</option>
+                                <option value="arrows">Arrows</option>
+                                <option value="zigzag">Zig Zag</option>
+                            </select>
+                        </label>
+
+                        <div class="preview"></div>
+                    </div>
+
+                    <div>
+                        <input id="startNew" type="button" value="Start a new game" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="game">
+
+            <div class="details">
+                <div>
+                    <span>Pairs left: </span>
+                    <span id="pairsLeft"></span>
+                </div>
+                <div class="currentPlayer">
+                </div>
+            </div>
+
+            <div id="playerA">
+                <h3></h3>
+                <ul></ul>
+            </div>
+
+            <div class="board">
+                <content></content>
+            </div>
+
+            <div id="playerB">
+                <h3></h3>
+                <ul></ul>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+    (function() {
+        'use strict';
+
+        var memoryGameProto = Object.create(HTMLElement.prototype);
+        var ownerDocument = document.currentScript.ownerDocument;
+        var template = ownerDocument.querySelector('template[name="game"]').content;
+        var clone;
+
+        var players = [{
+            id: 'playerA',
+            name: '',
+            score: 0
+        }, {
+            id: 'playerB',
+            name: '',
+            score: 0
+        }];
+        var deck;
+        var deckSelect;
+        var gameCards;
+        var currentPlayerPlaceHolder;
+
+        var currentPlayer = 0;
+        var visibleCards = [];
+        var cardTypes = [{
+            id: '8-ball',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/8-ball.png'
+        }, {
+            id: 'baked-potato',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/baked-potato.png'
+        }, {
+            id: 'dinosaur',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/dinosaur.png'
+        }, {
+            id: 'kronos',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/kronos.png'
+        }, {
+            id: 'rocket',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/rocket.png'
+        }, {
+            id: 'skinny-unicorn',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/skinny-unicorn.png'
+        }, {
+            id: 'that-guy',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/that-guy.png'
+        }, {
+            id: 'zeppelin',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/zeppelin.png'
+        }];
+
+        var pairsCount = cardTypes.length;
+
+        function shuffle(deck) {
+            for (var j, x, i = deck.length; i; j = parseInt(Math.random() * i), x = deck[--i], deck[i] = deck[j], deck[j] = x);
+            return deck;
+        };
+
+        function createCards(cardTypes) {
+            var deck = [],
+                card;
+
+            for (var i = 0; i < cardTypes.length; i++) {
+                card = '<game-card card_id="' + cardTypes[i].id + '" card_source="' + cardTypes[i].source + '"></game-card>';
+                deck.push(card);
+                card = '<game-card card_id="' + cardTypes[i].id + '" card_source="' + cardTypes[i].source + '"></game-card>';
+                deck.push(card);
+            }
+
+            return shuffle(deck);
+        }
+
+        function createBoard(deck) {
+            var board = clone.querySelector('.board');
+            board.innerHTML = deck.join('');
+        }
+
+        function isGameRunning() {
+            return deck.length > 0;
+        }
+
+        function setPlayersNames(playerA, playerB) {
+            clone.querySelector('#playerA h3').innerHTML = playerA;
+            clone.querySelector('#playerB h3').innerHTML = playerB;
+
+            currentPlayerPlaceHolder.innerHTML = playerA;
+        }
+
+        function switchPlayer() {
+            currentPlayer = currentPlayer === 0 ? 1 : 0;
+            currentPlayerPlaceHolder.innerHTML = players[currentPlayer].name;
+        }
+
+        function isMatch(cards) {
+            return cards[0].getAttribute('card_id') === cards[1].getAttribute('card_id');
+        }
+
+        function removePair() {
+            visibleCards[0].style.opacity = 0;
+            visibleCards[0].style.pointerEvents = 'none';
+            visibleCards[1].style.opacity = 0;
+            visibleCards[1].style.pointerEvents = 'none';
+
+            pairsCount--;
+            clone.getElementById('pairsLeft').innerHTML = pairsCount;
+        }
+
+        function flipBack() {
+            visibleCards[0].setAttribute('hide', true);
+            visibleCards[1].setAttribute('hide', true);
+        }
+
+        function assignToPlayer() {
+            var li = clone.createElement('li');
+            var img = clone.createElement('img');
+            img.src = visibleCards[0].getAttribute('card_source');
+            li.appendChild(img.cloneNode(true));
+            li.appendChild(img);
+            clone.querySelector('#' + players[currentPlayer].id + ' ul').appendChild(li);
+        };
+
+        function initCards() {
+            [].forEach.call(gameCards, function(DOMcard) {
+                DOMcard.addEventListener('click', function() {
+                    if (this == visibleCards[0]) {
+                        return;
+                    }
+
+                    visibleCards.push(this);
+                    this.setAttribute('block', '');
+
+                    if (visibleCards.length == 2) {
+
+                        [].forEach.call(gameCards, function(c) {
+                            c.setAttribute('block', '');
+                        });
+
+                        setTimeout(function() {
+                            if (isMatch(visibleCards)) {
+                                assignToPlayer();
+                                removePair();
+                                players[currentPlayer].score += 1;
+                                if (pairsCount === 0) {
+                                    var winnerId = players[0].score === players[1].score ? "draw" : players[0].score > players[1].score ? 0 : 1;
+
+                                    alert('game over, ' + players[winnerId].name + ' wins!');
+                                }
+                            }
+                            else {
+                                flipBack();
+                                switchPlayer();
+                            }
+
+                            // reset visibleCards;
+                            visibleCards.length = 0;
+
+                            [].forEach.call(gameCards, function(c) {
+                                c.removeAttribute('block');
+                                c.removeAttribute('hide');
+                            });
+                        }, 1500);
+                    }
+                    // display message
+                });
+            });
+        }
+
+        /************************** game UI logic ********************************/
+
+        function start() {
+            var container = clone.getElementById('container'),
+                nameA = clone.querySelector('[name=playerAName]'),
+                nameB = clone.querySelector('[name=playerBName]');
+            players[0].name = nameA.value || players[0].id;
+            players[1].name = nameB.value || players[1].id;
+
+            setPlayersNames(players[0].name, players[1].name)
+            container.classList.add('inGame');
+        }
+
+        function updateSelectedDeck() {
+            var gameCards = clone.querySelectorAll('game-card');
+            var backImage = deckSelect.value;
+            clone.querySelector('.preview').className = 'preview';
+            clone.querySelector('.preview').classList.add(backImage);
+            for (var i = 0; i < gameCards.length; i++) {
+                var back = gameCards[i].shadowRoot.querySelector('.back');
+                back.className = 'back';
+                back.classList.add(backImage);
+            }
+        }
+
+        memoryGameProto.createdCallback = function() {
+            clone = template.cloneNode(true);
+
+            deck = createCards(cardTypes);
+            createBoard(deck);
+
+            gameCards = clone.querySelectorAll('game-card');
+            initCards();
+
+            deckSelect = clone.getElementById('selectDeck');
+            deckSelect.addEventListener('change', function() {
+                updateSelectedDeck();
+            });
+
+            currentPlayerPlaceHolder = clone.querySelector('.currentPlayer');
+            clone.getElementById('pairsLeft').innerHTML = pairsCount;
+
+            clone.getElementById('startNew').addEventListener('click', function() {
+                start();
+            });
+
+
+
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        };
+
+        memoryGameProto.attachedCallback = function() {
+            //set initial selection
+            updateSelectedDeck();
+        };
+
+        memoryGameProto.attributeChangedCallback = function(attr, old_val, new_val) {
+
+        };
+
+        document.registerElement('memory-game', {
+            prototype: memoryGameProto
+        });
+    })();
+</script>

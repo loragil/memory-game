@@ -212,4 +212,5 @@
         e.currentTarget.style.backgroundPosition = amountMovedX + 'px ' + amountMovedY + 'px';
     });*/
 
+    
 }());

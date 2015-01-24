@@ -1,0 +1,271 @@
+<template id="game-template">
+    <style>
+        /* entire container, keeps perspective */
+        
+        .flip-container {
+            perspective: 1000;
+        }
+        /* flip the pane when hovered */
+        
+        .flip-container.show .flipper {
+            transform: rotateY(180deg);
+        }
+        .flip-container,
+        .front,
+        .back {
+            width: 165px;
+            height: 200px;
+        }
+        /* flip speed goes here */
+        
+        .flipper {
+            transition: 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        /* hide back of pane during swap */
+        
+        .front,
+        .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-size: contain;
+            /*background-repeat: no-repeat;*/
+            
+            box-shadow: 0px 0.3rem 0.3rem 0.2rem rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        /* front pane, placed above back */
+        
+        .front {
+            z-index: 2;
+            /* for firefox 31 */
+            
+            background-repeat: no-repeat;
+            transform: rotateY(180deg);
+        }
+        /* back, initially hidden pane */
+        
+        .back {
+            transform: rotateY(0deg);
+            /*background-image: url('http://igorminar.github.io/Memory-Game/app/img/back.png');*/
+        }
+        /* deck patterns: */
+        
+        .back.arrows {
+            background: linear-gradient(45deg, #92baac 45px, transparent 45px)64px 64px, linear-gradient(45deg, #92baac 45px, transparent 45px, transparent 91px, #e1ebbd 91px, #e1ebbd 135px, transparent 135px), linear-gradient(-45deg, #92baac 23px, transparent 23px, transparent 68px, #92baac 68px, #92baac 113px, transparent 113px, transparent 158px, #92baac 158px);
+            background-color: #e1ebbd;
+            background-size: 128px 128px;
+        }
+        .back.zigzag {
+            background: linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0, linear-gradient(315deg, #ECEDDC 25%, transparent 25%), linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
+            background-size: 100px 100px;
+            background-color: #EC173A;
+        }
+        .back.mat {
+            background: radial-gradient(circle at 0% 50%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px) 0px 10px, radial-gradient(at 100% 100%, rgba(96, 16, 48, 0) 9px, #613 10px, rgba(96, 16, 48, 0) 11px), #8a3;
+            background-size: 20px 20px;
+        }
+        .back.hearts {
+            background: radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%), radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%), radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%), radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187, 0, 51, 0) 27%) 50px 50px, radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221, 51, 85, 0) 46%) 50px 50px, radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221, 51, 85, 0) 31%) 50px 50px;
+            background-color: #b03;
+            background-size: 100px 100px;
+        }
+        .back.stars {
+            background: linear-gradient(324deg, #232927 4%, transparent 4%) -70px 43px, linear-gradient( 36deg, #232927 4%, transparent 4%) 30px 43px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 30px 43px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -70px 43px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -70px 23px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 30px 23px, linear-gradient(324deg, #232927 4%, transparent 4%) -20px 93px, linear-gradient( 36deg, #232927 4%, transparent 4%) 80px 93px, linear-gradient( 72deg, #e3d7bf 8.5%, transparent 8.5%) 80px 93px, linear-gradient(288deg, #e3d7bf 8.5%, transparent 8.5%) -20px 93px, linear-gradient(216deg, #e3d7bf 7.5%, transparent 7.5%) -20px 73px, linear-gradient(144deg, #e3d7bf 7.5%, transparent 7.5%) 80px 73px;
+            background-color: #232927;
+            background-size: 100px 100px;
+        }
+    </style>
+
+
+    <div class="game-container">
+        
+    <input id="test" type="button" name="test" value="test" />
+    </div>
+</template>
+
+
+<script>
+    (function() {
+        var data = [{
+            id: '8-ball',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/8-ball.png'
+        }, {
+            id: 'baked-potato',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/baked-potato.png'
+        }, {
+            id: 'dinosaur',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/dinosaur.png'
+        }, {
+            id: 'kronos',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/kronos.png'
+        }, {
+            id: 'rocket',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/rocket.png'
+        }, {
+            id: 'skinny-unicorn',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/skinny-unicorn.png'
+        }, {
+            id: 'that-guy',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/that-guy.png'
+        }, {
+            id: 'zeppelin',
+            source: 'http://igorminar.github.io/Memory-Game/app/img/zeppelin.png'
+        }];
+
+        var Card = function(options) {
+            var _isRevealed = options.isRevealed ? options.isRevealed : false;
+            var _src = options.src ? options.src : 'N/A';
+            //var cardTemplate = document.querySelector('template[name="card"]').content;
+            var cardTemplate = "<div class='flip-container'>" +
+                "<div class='flipper'>" +
+                "<div class='front'></div>" +
+                "<div class='back'></div>" +
+                "</div>" +
+                "</div>";
+            /*  var documentFragment = range.createContextualFragment(tagString);
+document.body.appendChild(documentFragment);*/
+            //var _dom = options.v ? options.dom : cardTemplate.cloneNode(true);
+            var _dom = options.v ? options.dom : document.createRange().createContextualFragment(cardTemplate);;
+            //var _template = options.template ? options.template : _dom;
+
+            var flip = function(cardDOM, val) {
+                console.log('flipped!');
+
+                _isRevealed = val !== undefined ? val : !_isRevealed;
+                cardDOM.classList.toggle('show', _isRevealed);
+            }
+
+            var render = function() {
+                //console.log('flipped!');
+
+                //bind card's UI events
+                var cardDom = _dom.querySelector('.flip-container');
+                cardDom.addEventListener('click', function() {
+                    //alert(_src);
+                    flip(this);
+                });
+
+                /* testbtn.addEventListener('click', function (){
+                     var c = deck.cards[deck.length-1];
+                     c.flip(c.dom);
+                 });*/
+
+                return _dom;
+            }
+
+            var c = {
+                get isRevealed() {
+                    return _isRevealed;
+                },
+                set isRevealed(val) {
+                    _isRevealed = val;
+                },
+                get src() {
+                    return _src;
+                },
+                set src(val) {
+                    _src = val;
+                },
+                /*get tmpl() {
+                    return _template;
+                },
+                set tmpl(val) {
+                    _template = val;
+                },*/
+                get dom() {
+                    return _dom;
+                },
+                set dom(val) {
+                    _dom = val;
+                },
+
+                flip: flip,
+                render: render
+            }
+
+            return c;
+        }
+
+        var MemoryGame = function(options) {
+            var players,
+                board = options.boardDOM, // ? options.boardDOM : Object.create()
+                deck = {
+                    pattern: '',
+                    cards: [],
+
+                    shuffle: function() {
+                        console.log('shuffling...');
+                    },
+                    setCards: function() {
+                        var options = {},
+                            card;
+
+                        for (var i = 0; i < data.length; i++) {
+                            options.src = data[i].source;
+                            options.isRevealed = false; //cards[i].isRevealed;
+                            deck.cards.push(new Card(options));
+                        }
+                    },
+                    init: function() {
+                        deck.setCards();
+                        deck.shuffle();
+
+                        //return this;
+                    }
+
+                },
+                renderBoard = function() {
+                    deck.init();
+
+                    for (var i = 0; i < deck.cards.length; i++) {
+                        board.appendChild(deck.cards[i].render());
+                    }
+
+                    var testBtn = board.querySelector('#test');
+                    testBtn.addEventListener('click', function(e) {
+                        deck.cards[1].flip(e.currentTarget);
+                    });
+
+                },
+                start = function() {
+                    renderBoard();
+                };
+
+
+            return {
+                start: start
+            };
+        };
+
+
+        var GameProto = Object.create(HTMLElement.prototype);
+
+        var template = document.currentScript.ownerDocument.querySelector('#game-template').content;
+
+        GameProto.createdCallback = function() {
+            var clone = template.cloneNode(true);
+            var container = clone.querySelector('.game-container');
+            var gameOptions = {
+                boardDOM: container
+            };
+            var game = new MemoryGame(gameOptions);
+
+            game.start(data);
+
+            var root = this.createShadowRoot();
+            root.appendChild(clone);
+        };
+
+        GameProto.attributeChangedCallback = function(attr, old_val, new_val) {
+            if (attr === '') {}
+        };
+
+        document.registerElement('memory-game-two', {
+            prototype: GameProto
+        });
+    })();
+</script>

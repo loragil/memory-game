@@ -17,7 +17,7 @@
         "@instanceHighlight": "true",
         "@semi": "true",
         "@undeclaredVars": "true",
-        "@unusedFunctionArgs": "false",
+        "@unusedFunctionArgs": true,
         "@warnLevel": "info"
     },
     "run": {
